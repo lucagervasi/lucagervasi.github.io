@@ -4,7 +4,7 @@ ps -ylC httpd --sort:rss | awk '
   ++n
  } 
  END {
-  printf("Httpd Tot=%d (%d procs) - Avg=%.2f => %.2f Mb\n", sum, n, sum/n, sum/n/1024);
+  printf("Httpd      Tot=%d (%d procs) - Avg=%.2f => %.2f Mb\n", sum, n, sum/n, sum/n/1024);
  }
 '
 
