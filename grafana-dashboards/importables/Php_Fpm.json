@@ -1,56 +1,4 @@
 {
-  "dashboard": 
-
-{
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.4.7"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph (old)",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -70,6 +18,40 @@
           "type": "tags"
         },
         "type": "dashboard"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "iconColor": "red",
+        "name": "Deployments",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [
+            "deployment"
+          ],
+          "type": "tags"
+        }
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "iconColor": "red",
+        "name": "Outages",
+        "target": {
+          "limit": 100,
+          "refId": "Anno",
+          "tags": [
+            "outages"
+          ],
+          "type": "tags"
+        }
       }
     ]
   },
@@ -78,14 +60,14 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 4912,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -188,7 +170,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "avg(phpfpm_process_request_duration{app_kubernetes_io_name=~\"[[app]]\",namespace=~\"[[namespace]]\"})",
@@ -199,7 +181,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "min(phpfpm_process_request_duration{app_kubernetes_io_name=~\"[[app]]\",namespace=~\"[[namespace]]\"})",
@@ -211,7 +193,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "max(phpfpm_process_request_duration{app_kubernetes_io_name=~\"[[app]]\",namespace=~\"[[namespace]]\"})",
@@ -227,7 +209,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -290,7 +272,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "expr": "count(phpfpm_up{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"} > 0)",
@@ -340,7 +322,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -403,7 +385,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "expr": "sum(phpfpm_listen_queue{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"})",
@@ -453,7 +435,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -516,7 +498,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "expr": "sum(phpfpm_scrape_failures{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"})",
@@ -566,7 +548,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -622,7 +604,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 12,
         "y": 4
@@ -648,7 +630,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "editorMode": "code",
@@ -700,7 +682,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Utilisation of processes based on active/inactive processes",
       "fieldConfig": {
@@ -769,7 +751,7 @@
           "alias": "",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "editorMode": "code",
@@ -823,7 +805,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "How many times was the maximum amount of children reached?",
       "fieldConfig": {
@@ -887,7 +869,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "expr": "sum(phpfpm_max_children_reached{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"})",
@@ -937,7 +919,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -1000,7 +982,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "editorMode": "code",
@@ -1051,107 +1033,9 @@
       "type": "stat"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 11
-      },
-      "hiddenSeries": false,
-      "id": 25,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "max",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "expr": "sum(phpfpm_process_request_duration{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"}) by (pod,child)",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{pod}} {{child}}",
-          "range": true,
-          "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-          "refId": "A",
-          "step": 2
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Request Duration by process",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "µs",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -1233,7 +1117,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "editorMode": "code",
@@ -1283,9 +1167,243 @@
       "type": "timeseries"
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "hiddenSeries": false,
+      "id": 25,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(phpfpm_process_request_duration{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"}) by (pod,child)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "{{pod}} {{child}}",
+          "range": true,
+          "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+          "refId": "A",
+          "step": 2
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Request Duration by process",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 19
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "9.4.7",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "dsType": "influxdb",
+          "expr": "sum(phpfpm_listen_queue{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"})",
+          "format": "time_series",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "intervalFactor": 2,
+          "legendFormat": "# of requests",
+          "metric": "",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "step": 2,
+          "tags": []
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "sum(kube_pod_container_status_terminated{pod=~\"$branch-.*\"})",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 2,
+          "legendFormat": "# of pod terminations",
+          "refId": "B",
+          "step": 60
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Queued requests",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "none",
+          "logBase": 1,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -1344,7 +1462,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 19
       },
       "id": 14,
       "links": [],
@@ -1368,7 +1486,7 @@
           "alias": "",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "sum(phpfpm_process_requests{app_kubernetes_io_name=\"$app\", namespace=\"$namespace\"}) by (pod,child)",
@@ -1391,7 +1509,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1399,10 +1517,10 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 19
+        "y": 26
       },
       "hiddenSeries": false,
-      "id": 10,
+      "id": 11,
       "legend": {
         "avg": false,
         "current": false,
@@ -1432,10 +1550,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
-          "expr": "sum(phpfpm_listen_queue{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"})",
+          "expr": "sum(phpfpm_active_processes{app_kubernetes_io_name=\"$app\", namespace=\"$namespace\"})",
           "format": "time_series",
           "groupBy": [
             {
@@ -1451,9 +1569,9 @@
               "type": "fill"
             }
           ],
-          "intervalFactor": 2,
-          "legendFormat": "# of requests",
-          "metric": "",
+          "intervalFactor": 1,
+          "legendFormat": "# of active processes",
+          "metric": "phpfpm_active_processes",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -1472,26 +1590,39 @@
               }
             ]
           ],
-          "step": 2,
+          "step": 1,
           "tags": []
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
-          "expr": "sum(kube_pod_container_status_terminated{pod=~\"$branch-.*\"})",
+          "expr": "sum(phpfpm_idle_processes{app_kubernetes_io_name=\"$app\", namespace=\"$namespace\"})",
           "format": "time_series",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "# of pod terminations",
+          "intervalFactor": 1,
+          "legendFormat": "# of idle processes",
+          "metric": "phpfpm_idle_processes",
           "refId": "B",
-          "step": 60
+          "step": 1
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "sum(phpfpm_total_processes{app_kubernetes_io_name=\"$app\", namespace=\"$namespace\"})",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "# of total processes",
+          "metric": "phpfpm_total_processes",
+          "refId": "C",
+          "step": 1
         }
       ],
       "thresholds": [],
       "timeRegions": [],
-      "title": "Queued requests",
+      "title": "# of Active & Idle processes",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1505,15 +1636,14 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "logBase": 1,
-          "min": "0",
           "show": true
         },
         {
           "format": "short",
           "logBase": 1,
-          "show": false
+          "show": true
         }
       ],
       "yaxis": {
@@ -1527,7 +1657,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1535,7 +1665,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 26
       },
       "hiddenSeries": false,
       "id": 4,
@@ -1575,7 +1705,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "expr": "avg((sum(phpfpm_active_processes{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"}) by (kubernetes_pod_name) *100) / sum(phpfpm_total_processes{app_kubernetes_io_name=\"$app\",namespace=\"$namespace\"}) by (kubernetes_pod_name))",
@@ -1621,7 +1751,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "expr": "sum(kube_pod_container_status_terminated{pod=~\"static-thread-handling-.*\"})",
           "format": "time_series",
@@ -1677,269 +1807,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 26
-      },
-      "hiddenSeries": false,
-      "id": 11,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "dsType": "influxdb",
-          "expr": "sum(phpfpm_active_processes{app_kubernetes_io_name=\"$app\", namespace=\"$namespace\"})",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "intervalFactor": 1,
-          "legendFormat": "# of active processes",
-          "metric": "phpfpm_active_processes",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "step": 1,
-          "tags": []
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(phpfpm_idle_processes{app_kubernetes_io_name=\"$app\", namespace=\"$namespace\"})",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "# of idle processes",
-          "metric": "phpfpm_idle_processes",
-          "refId": "B",
-          "step": 1
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(phpfpm_total_processes{app_kubernetes_io_name=\"$app\", namespace=\"$namespace\"})",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "# of total processes",
-          "metric": "phpfpm_total_processes",
-          "refId": "C",
-          "step": 1
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "# of Active & Idle processes",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "editable": true,
-      "error": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 32
-      },
-      "hiddenSeries": false,
-      "id": 17,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "expr": "count(count(container_memory_usage_bytes{pod=~\"$app-.*\", namespace=\"$namespace\"}) by (pod))",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "pods",
-          "range": true,
-          "refId": "A",
-          "step": 1
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "expr": "count(count(container_memory_usage_bytes{pod=~\"$app-.*\", namespace=\"$namespace\"}) by (hostname))",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "hosts",
-          "range": true,
-          "refId": "B",
-          "step": 2
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Number of pods",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "logBase": 1,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1980,7 +1848,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "dsType": "influxdb",
           "editorMode": "code",
@@ -2063,7 +1931,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "editable": true,
       "error": false,
@@ -2073,10 +1941,10 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 39
+        "y": 33
       },
       "hiddenSeries": false,
-      "id": 19,
+      "id": 17,
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -2110,121 +1978,37 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_memory_usage_bytes{container_name=\"fpm\",pod_name=~\"$branch-.*\", namespace=\"$namespace\"}) by (namespace,container_name) / sum(container_spec_memory_limit_bytes{container_name=\"fpm\",pod_name=~\"$branch-.*\", namespace=\"$namespace\"}) by (namespace,container_name)",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "actual",
-          "refId": "A",
-          "step": 1
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Memory usage (relative to limit)",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "percentunit",
-          "logBase": 1,
-          "max": "1",
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "editable": true,
-      "error": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 40
-      },
-      "hiddenSeries": false,
-      "id": 18,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(irate(container_cpu_usage_seconds_total{container=~\".*fpm.*\",pod=~\"$app-.*\", namespace=\"$namespace\"}[30s])) by (namespace,container) / sum(container_spec_cpu_quota{container=~\".*fpm.*\",pod=~\"$app-.*\", namespace=\"$namespace\"} / container_spec_cpu_period{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container)",
+          "expr": "count(count(container_memory_usage_bytes{pod=~\"$app-.*\", namespace=\"$namespace\"}) by (pod))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "actual",
-          "metric": "",
+          "legendFormat": "pods",
           "range": true,
           "refId": "A",
           "step": 1
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "count(count(container_memory_usage_bytes{pod=~\"$app-.*\", namespace=\"$namespace\"}) by (hostname))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "hosts",
+          "range": true,
+          "refId": "B",
+          "step": 2
         }
       ],
       "thresholds": [],
       "timeRegions": [],
-      "title": "Cpu usage (relative to limit)",
+      "title": "Number of pods",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -2239,657 +2023,9 @@
       },
       "yaxes": [
         {
-          "format": "percentunit",
-          "label": "",
-          "logBase": 1,
-          "max": "1",
-          "min": "0",
-          "show": true
-        },
-        {
           "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 46
-      },
-      "hiddenSeries": false,
-      "id": 15,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_memory_usage_bytes{container_name=\"fpm\",pod_name=~\"$branch-.*\"}) by (namespace,container_name,pod_name) / sum(container_spec_memory_limit_bytes{container_name=\"fpm\",pod_name=~\"$branch-.*\"}) by (namespace,container_name,pod_name)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{pod_name}}",
-          "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-          "refId": "A",
-          "step": 1
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Memory usage per pod (relative to limit)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "percentunit",
-          "logBase": 1,
-          "max": "1",
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "The metric may not work if there is no quota assigned.",
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 47
-      },
-      "hiddenSeries": false,
-      "id": 16,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(\n  irate(\n    container_cpu_usage_seconds_total{container_name=\"fpm\", namespace=\"$namespace\",pod_name=~\"$branch-.*\"}[2m]\n  )\n) by (namespace,container_name,pod_name) /\nsum(\n  container_spec_cpu_quota{container_name=\"fpm\",namespace=\"$namespace\",pod_name=~\"$branch-.*\"} /\n  container_spec_cpu_period{container_name=\"fpm\",namespace=\"$namespace\",pod_name=~\"$branch-.*\"}\n) by (namespace,container_name,pod_name)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-          "refId": "A",
-          "step": 1
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "CPU usage per pod (relative to limit)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "editable": true,
-      "error": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 53
-      },
-      "hiddenSeries": false,
-      "id": 21,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_memory_usage_bytes{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name) ",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "actual",
-          "metric": "",
-          "refId": "A",
-          "step": 1
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_spec_memory_limit_bytes{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name) ",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "limit",
-          "refId": "B",
-          "step": 1
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Memory usage (avg per pod)",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
           "logBase": 1,
           "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 54
-      },
-      "hiddenSeries": false,
-      "id": 20,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(irate(container_cpu_usage_seconds_total{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}[30s])) by (id,pod_name)",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{pod_name}}",
-          "refId": "A",
-          "step": 2
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_spec_cpu_quota{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"} / container_spec_cpu_period{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name) ",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "limit",
-          "refId": "B",
-          "step": 2
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_spec_cpu_shares{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"} / 1024) by (namespace,container_name) / count(container_spec_cpu_shares{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name) ",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "request",
-          "refId": "C",
-          "step": 2
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Cpu usage (per pod)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": "cores",
-          "logBase": 1,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "editable": true,
-      "error": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 60
-      },
-      "hiddenSeries": false,
-      "id": 23,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_memory_usage_bytes{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name)",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "actual",
-          "refId": "A",
-          "step": 1
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_spec_memory_limit_bytes{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "limit",
-          "refId": "B",
-          "step": 1
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Memory usage (total)",
-      "tooltip": {
-        "msResolution": true,
-        "shared": false,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "logBase": 1,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "editable": true,
-      "error": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 61
-      },
-      "hiddenSeries": false,
-      "id": 22,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.4.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(irate(container_cpu_usage_seconds_total{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}[30s])) by (namespace,container_name)",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "actual",
-          "metric": "",
-          "refId": "A",
-          "step": 1
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_spec_cpu_quota{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"} / container_spec_cpu_period{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"}) by (namespace,container_name)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "limit",
-          "refId": "B",
-          "step": 1
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "sum(container_spec_cpu_shares{pod_name=~\"$branch-.*\",container_name=\"fpm\", namespace=\"$namespace\"} / 1024) by (namespace,container_name) ",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "request",
-          "refId": "C",
-          "step": 1
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Cpu usage (total)",
-      "tooltip": {
-        "msResolution": true,
-        "shared": false,
-        "sort": 0,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "none",
-          "label": "cores",
-          "logBase": 1,
-          "min": 0,
           "show": true
         },
         {
@@ -2911,10 +2047,14 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "dv2-gaz-xlk",
+          "value": "dv2-gaz-xlk"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(phpfpm_up,namespace)",
         "hide": 0,
@@ -2937,12 +2077,16 @@
         "useTags": false
       },
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "fpm-admin",
+          "value": "fpm-admin"
+        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "PBFA97CFB590B2093"
         },
-        "definition": "label_values(phpfpm_up{namespace=\"$namespace\"},app_kubernetes_io_name)",
+        "definition": "label_values(phpfpm_up{namespace=\"[[namespace]]\"},app_kubernetes_io_name)",
         "hide": 0,
         "includeAll": false,
         "label": "Application",
@@ -2950,7 +2094,7 @@
         "name": "app",
         "options": [],
         "query": {
-          "query": "label_values(phpfpm_up{namespace=\"$namespace\"},app_kubernetes_io_name)",
+          "query": "label_values(phpfpm_up{namespace=\"[[namespace]]\"},app_kubernetes_io_name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -2994,18 +2138,8 @@
     ]
   },
   "timezone": "",
-  "title": "Kubernetes PHP-FPM",
+  "title": "PHP-FPM",
   "uid": "yDs3Qed4ke",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
-},
- "inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "pluginId": "prometheus",
-      "type": "datasource",
-      "value": "prometheus"   
-    }
-  ],
-  "overwrite": true
 }

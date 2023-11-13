@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.2.5"
+      "version": "9.4.7"
     },
     {
       "type": "datasource",
@@ -114,6 +114,216 @@
               }
             ]
           },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(container_network_receive_bytes_total{pod=\"$pod\"}[5m]))",
+          "legendFormat": "Recv",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(container_network_transmit_bytes_total{pod=\"$pod\"}[5m]))",
+          "hide": false,
+          "legendFormat": "Sent",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Network",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(container_fs_writes_bytes_total{pod=\"$pod\"}[5m])) by (container_name,device)",
+          "legendFormat": "{{device}} writes",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "sum(rate(container_fs_reads_bytes_total{pod=\"$pod\"}[5m])) by (container_name,device)",
+          "hide": false,
+          "legendFormat": "{{device}} reads",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Filesystem",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
           "unit": "string"
         },
         "overrides": []
@@ -122,7 +332,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 2,
       "options": {
@@ -166,11 +376,13 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "editorMode": "code",
           "exemplar": true,
           "expr": "max(kube_pod_container_resource_limits{pod=\"$pod\",container=\"$container\",resource=\"cpu\"}) by (container)",
           "hide": false,
           "interval": "",
           "legendFormat": "container limit",
+          "range": true,
           "refId": "C"
         },
         {
@@ -248,10 +460,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 8
       },
       "id": 4,
       "options": {
@@ -366,10 +578,10 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 8
+        "x": 0,
+        "y": 17
       },
-      "id": 8,
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -389,9 +601,10 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "max by (owner_name,container)((container_memory_usage_bytes{container=\"$container\",pod=\"$pod\"}) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"})) / (1024*1024)",
+          "expr": "max by (container,owner_name)((rate(container_cpu_usage_seconds_total{pod=\"$pod\",container=\"$container\"}[5m])) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"}))",
+          "hide": false,
           "interval": "",
-          "legendFormat": "Conservative Strategy",
+          "legendFormat": "Conservative Strategy ",
           "refId": "A"
         },
         {
@@ -400,14 +613,14 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "quantile by (owner_name,container)(0.99,(container_memory_usage_bytes{container=\"$container\",pod=\"$pod\"}) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"})) / (1024*1024)",
+          "expr": "quantile by (owner_name,container)(0.99,(rate(container_cpu_usage_seconds_total{pod=\"$pod\",container=\"$container\"}[5m])) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"}))",
           "hide": false,
           "interval": "",
           "legendFormat": "Aggressive Strategy",
           "refId": "B"
         }
       ],
-      "title": "Expect Memory Setting",
+      "title": "Expect CPU Setting",
       "type": "timeseries"
     },
     {
@@ -470,10 +683,10 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 9
+        "x": 12,
+        "y": 17
       },
-      "id": 6,
+      "id": 8,
       "options": {
         "legend": {
           "calcs": [],
@@ -493,10 +706,9 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "max by (container,owner_name)((rate(container_cpu_usage_seconds_total{pod=\"$pod\",container=\"$container\"}[5m])) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"}))",
-          "hide": false,
+          "expr": "max by (owner_name,container)((container_memory_usage_bytes{container=\"$container\",pod=\"$pod\"}) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"})) / (1024*1024)",
           "interval": "",
-          "legendFormat": "Conservative Strategy ",
+          "legendFormat": "Conservative Strategy",
           "refId": "A"
         },
         {
@@ -505,30 +717,50 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "quantile by (owner_name,container)(0.99,(rate(container_cpu_usage_seconds_total{pod=\"$pod\",container=\"$container\"}[5m])) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"}))",
+          "expr": "quantile by (owner_name,container)(0.99,(container_memory_usage_bytes{container=\"$container\",pod=\"$pod\"}) * on(pod) group_left(owner_name) avg by (namespace,pod,owner_name)(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"})) / (1024*1024)",
           "hide": false,
           "interval": "",
           "legendFormat": "Aggressive Strategy",
           "refId": "B"
         }
       ],
-      "title": "Expect CPU Setting",
+      "title": "Expect Memory Setting",
       "type": "timeseries"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 37,
+  "refresh": "5s",
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {},
+        "definition": "label_values(kube_namespace_status_phase,namespace)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "ns",
+        "options": [],
+        "query": {
+          "query": "label_values(kube_namespace_status_phase,namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"},owner_name)",
+        "definition": "label_values(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\",namespace=~\"[[ns]]\"},owner_name)",
         "hide": 0,
         "includeAll": false,
         "label": "App",
@@ -536,7 +768,7 @@
         "name": "app",
         "options": [],
         "query": {
-          "query": "label_values(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\"},owner_name)",
+          "query": "label_values(kube_pod_owner{owner_kind=~\"DaemonSet|StatefulSet|ReplicaSet\",namespace=~\"[[ns]]\"},owner_name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -551,7 +783,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(kube_pod_owner{owner_name=\"$app\"},pod)",
+        "definition": "label_values(kube_pod_owner{owner_name=~\"[[app]]\",namespace=~\"[[ns]]\"},pod)",
         "hide": 0,
         "includeAll": false,
         "label": "Pod",
@@ -559,7 +791,7 @@
         "name": "pod",
         "options": [],
         "query": {
-          "query": "label_values(kube_pod_owner{owner_name=\"$app\"},pod)",
+          "query": "label_values(kube_pod_owner{owner_name=~\"[[app]]\",namespace=~\"[[ns]]\"},pod)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -601,6 +833,6 @@
   "timezone": "",
   "title": "Monitor Pod CPU and Memory usage",
   "uid": "wu-8KEN7z",
-  "version": 1,
+  "version": 6,
   "weekStart": ""
 }
