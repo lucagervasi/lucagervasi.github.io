@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  generic-scalable-application:
+  - apiVersion: v1
+    created: "2023-12-30T17:24:01.286018053+01:00"
+    description: Generic Scalable Application
+    digest: 5dcd0e6f64bc1a335e3022491b3d5aa6be5655373225f2f607b7322b1fcd0894
+    icon: https://cdn4.iconfinder.com/data/icons/got-idea-vol-2/128/tls-512.png
+    name: generic-scalable-application
+    urls:
+    - https://lucagervasi.github.io/helm/generic-scalable-application-0.1.2023120800.tgz
+    version: 0.1.2023120800
+generated: "2023-12-30T17:24:01.285511504+01:00"
