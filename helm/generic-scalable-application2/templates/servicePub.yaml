@@ -1,0 +1,41 @@
+# servicePub.yaml
+###################################################################################################
+{{- $service  := .Values.service | default dict }}
+{{- if eq $service.enabled "True" -}}
+{{- $root := . }}
+{{- $isPublic := $service.requirePublicIP | default "0" }}
+{{- if eq $isPublic "1" }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ printf "%s-pub" (include "name" $root) | quote }}
+  namespace: {{ .Release.Namespace | quote}}
+  labels: {{- include "labels" $root | nindent 4 }}
+  annotations:
+  {{- include "quoteMap" $service.annotations | indent 4 -}}
+
+spec:
+  type: "LoadBalancer"
+  {{- if $service.loadBalancerIP }}
+  loadBalancerIP: {{ $service.loadBalancerIP | quote }}
+  {{- end }}
+  {{- if $service.clusterIP }}
+  clusterIP: {{ $service.clusterIP | quote }}
+  {{- end }}
+  {{- if $service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ $service.externalTrafficPolicy | quote }}
+  {{- end }}
+  ports:
+    {{- range $k, $v := $service.ports }}
+    - name: {{ $k | quote}}
+      port: {{ $v.ext }}
+      targetPort: {{ $v.int }}
+    {{- end }}
+  selector:
+    app.kubernetes.io/name: {{ include "name" $root | quote }}
+  sessionAffinity: {{ $service.sessionAffinity | default "None" }}
+  loadBalancerSourceRanges: {{ include "quoteArray" (required "Missing value: servicePub.sourceCidrs" $service.sourceCidrs) | indent 2 }}
+{{- end }}
+{{- end }}
+###################################################################################################
+###################################################################################################

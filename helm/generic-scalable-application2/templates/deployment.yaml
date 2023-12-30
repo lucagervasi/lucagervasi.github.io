@@ -1,0 +1,243 @@
+# deployment.yaml
+###################################################################################################
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "name" . | quote }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels: {{- include "labels" . | nindent 4 }}
+        {{- if .Values.labels }}
+          {{- range $k,$v := .Values.labels }} 
+            {{- $k | nindent 4 }}: {{ $v | quote }}
+          {{- end }}
+        {{- end }}  
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "name" . | quote }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.strategy.rollingUpdate.maxUnavailable }}
+  template:
+    metadata:
+      labels:
+        {{ include "labels" . | indent 8 | trim }}
+        {{- if .Values.labels }}
+          {{- range $k,$v := .Values.labels }} 
+            {{- $k | nindent 8 }}: {{ $v | quote }}
+          {{- end }}
+        {{- end }}
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        rcs.it/checksum_fluent: {{ include (print $.Template.BasePath "/configMap-fluentd.yaml") . | sha256sum }}
+        rcs.it/checksum_config: {{ include (print $.Template.BasePath "/configMap.yaml") . | sha256sum }}
+        {{- if .Values.annotations }}
+          {{- range $k,$v := .Values.annotations }} 
+            {{- $k | nindent 8 }}: {{ $v | quote }}
+          {{- end }}        
+        {{- end }}
+    spec:
+      enableServiceLinks: false
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | indent 8 | trim }}
+      {{- end }}
+      initContainers:
+      - name: volume-mount-hack
+        image: {{ required "Missing value! (imageInit)" .Values.imageInit | quote }}
+        imagePullPolicy: {{ required "Missing value! (imagePullPolicy)" .Values.imagePullPolicy }}
+        command: ["sh", "-c", "chown -R {{ required "Missing value! (runAsUser)" .Values.runAsUser }}:{{ required "Missing value! (runAsGroup)" .Values.runAsGroup }} /application-logs"]
+        volumeMounts:
+        - name: log
+          mountPath: "/application-logs"
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+
+{{- if semverCompare ">=1.28" .Capabilities.KubeVersion.GitVersion -}}
+  {{- if eq .Values.logging.enabled) "True" }}
+      - name: logger
+        image: {{ required "Missing value! imageLog" .Values.imageLog | quote }}
+        imagePullPolicy: {{ required "Missing value! (imagePullPolicy)" .Values.imagePullPolicy }}
+        command: ["fluentd","-c","/fluentd/etc/fluentd.conf"]
+        restartPolicy: Always
+        env:
+    {{ if eq .Values.logging.provider "opensearch" }}
+        - name: "OPENSEARCH_HOST"
+          value: {{ .Values.logging.opensearch.host | quote }}
+        - name: "OPENSEARCH_PORT"
+          value: {{ .Values.logging.opensearch.port | quote }}
+        - name: "OPENSEARCH_USER"
+          value: {{ .Values.logging.opensearch.user | quote }}
+        - name: "OPENSEARCH_PASSWORD"
+          value: {{ .Values.logging.opensearch.password | quote }}
+        - name: "OPENSEARCH_SCHEMA"
+          value: {{ .Values.logging.opensearch.schema | quote }}          
+    {{ end }}          
+        - name: "APPLICATION_IDENTIFIER"
+          value: {{ include "name" . | quote }}
+        {{- range $k,$v := .Values.loggerEnvs }}
+        - name: {{ $k | quote }}
+          value: {{ $v | quote }}
+        {{- end }}
+        volumeMounts:
+        - name: log
+          mountPath: "/application-logs"
+        - name: fluentd-config
+          mountPath: /fluentd/etc
+        securityContext:
+          runAsUser: {{ required "Missing value! (runAsUser)" .Values.runAsUser }}
+          runAsGroup: {{ required "Missing value! (runAsGroup)" .Values.runAsGroup }}
+        {{- with .Values.logging.resources }}
+        resources:
+          {{ toYaml . | indent 10 | trim }}
+        {{- end }}
+  {{- end -}}
+{{- end -}}
+
+
+
+
+
+      containers:
+      - name: {{ include "name" . }}
+        image: {{ required "Missing value! (image)" .Values.image | quote }}
+        imagePullPolicy: {{ required "Missing value! (imagePullPolicy)" .Values.imagePullPolicy }}
+        {{- if .Values.command }}
+        command: {{- include "quoteArray" .Values.command | indent 10}}
+        {{- end }}
+        {{- if .Values.args }}
+        args: {{- include "quoteArray" .Values.args | indent 10}}
+        {{- end }}
+        volumeMounts:
+        {{- range $k,$v := .Values.volumes }}
+        - name: {{ $k | quote }}
+          mountPath: {{ required "Missing mountPath for $k " $v.mountPath }}
+          {{- if $v.subPath }}
+          subPath: {{ $v.subPath }}
+          {{ end -}}
+        {{ end }}
+
+        {{ range $k, $v := .Values.configmapmounts }}
+        - name: {{ $k | quote }}
+          mountPath: {{ $v.mountPath | quote }}
+          {{- if $v.subPath }}
+          subPath: {{ $v.subPath }}
+          {{- end }}
+          {{- if $v.readonly }}
+          readOnly: true
+          {{- end }}
+        {{ end }}
+
+        - name: log
+          mountPath: "/application-logs"
+
+        {{- with .Values.resources }}
+        resources:
+          {{ toYaml . | indent 10 | trim }}
+        {{- end }}
+        ports:
+        {{- range $k, $v := .Values.ports }}
+        - containerPort: {{ $v.int }}
+        {{- end }}
+        {{- if .Values.readinessProbe }}
+        readinessProbe: {{- .Values.readinessProbe | toYaml | nindent 10 }}
+        {{- end }}
+        {{- if .Values.livenessProbe }}
+        livenessProbe: {{- .Values.livenessProbe | toYaml | nindent 10 }}
+        {{- end }}
+
+        {{- if .Values.configenvs }}
+        envFrom:
+        - configMapRef:
+            name: {{ include "name" . }}-env
+        {{- end }}
+
+        env:
+        {{- range $k,$v := .Values.envs }}
+        - name: {{ $k }}
+          value: {{ $v }}
+        {{- end }}
+
+        securityContext:
+          runAsUser: {{ required "Missing value! (runAsUser)" .Values.runAsUser }}
+          runAsGroup: {{ required "Missing value! (runAsGroup)" .Values.runAsGroup }}
+
+{{- if semverCompare "<1.28" .Capabilities.KubeVersion.GitVersion -}}
+  {{- if eq .Values.logging.enabled) "True" }}
+      - name: logger
+        image: {{ required "Missing value! imageLog" .Values.imageLog | quote }}
+        imagePullPolicy: {{ required "Missing value! (imagePullPolicy)" .Values.imagePullPolicy }}
+        command: ["fluentd","-c","/fluentd/etc/fluentd.conf"]
+        env:
+
+        {{ if eq .Values.logging.provider "opensearch" }}
+        - name: "OPENSEARCH_HOST"
+          value: {{ .Values.logging.opensearch.host | quote }}
+        - name: "OPENSEARCH_PORT"
+          value: {{ .Values.logging.opensearch.port | quote }}
+        - name: "OPENSEARCH_USER"
+          value: {{ .Values.logging.opensearch.user | quote }}
+        - name: "OPENSEARCH_PASSWORD"
+          value: {{ .Values.logging.opensearch.password | quote }}
+        - name: "OPENSEARCH_SCHEMA"
+          value: {{ .Values.logging.opensearch.schema | quote }}          
+        {{ end }}          
+        - name: "APPLICATION_IDENTIFIER"
+          value: {{ include "name" . | quote }}
+        {{- range $k,$v := .Values.loggerEnvs }}
+        - name: {{ $k | quote }}
+          value: {{ $v | quote }}
+        {{- end }}
+        volumeMounts:
+        - name: log
+          mountPath: "/application-logs"
+        - name: fluentd-config
+          mountPath: /fluentd/etc
+        securityContext:
+          runAsUser: {{ required "Missing value! (runAsUser)" .Values.runAsUser }}
+          runAsGroup: {{ required "Missing value! (runAsGroup)" .Values.runAsGroup }}
+        {{- with .Values.logging.resources }}
+        resources:
+          {{ toYaml . | indent 10 | trim }}
+        {{- end }}
+  {{ -end -}}
+{{- end -}}
+
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{ toYaml . | indent 6 | trim }}
+      {{- end }}
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      dnsConfig:
+        {{- with .Values.dnsSearches }}
+        searches:
+        {{ toYaml . | indent 8 | trim }}
+        {{- end }}
+        options:
+        - name: ndots
+          value: {{ required "Missing value! (dnsDots)" .Values.dnsDots | quote }}
+        - name: single-request-reopen      # Bug https://github.com/Azure/AKS/issues/632
+      volumes:
+      - name: log
+        emptyDir: {}
+      - name: fluentd-config
+        configMap:
+          name: {{ include "name" . }}-fluentd
+      {{- $ns := .Release.Namespace -}}
+      {{- range $k,$v := .Values.volumes }}
+      - name: {{ $k | quote }}
+        persistentVolumeClaim:
+          claimName: {{ printf "%s" $v.claim | quote }}
+      {{- end }}
+      {{ range $k, $v := .Values.configmapmounts }}
+      - name: {{ $k | quote }}
+        configMap:
+          name: {{ $v.cfmap }}
+      {{ end }}
+
+###################################################################################################
+###################################################################################################

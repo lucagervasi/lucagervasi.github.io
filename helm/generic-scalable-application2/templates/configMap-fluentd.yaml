@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "name" . }}-fluentd
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "labels" . | indent 4 | trim }}
+data:
+  fluentd.conf: |-
+    # generic-scalable-application3 - configMap-fluentd.yaml  
+{{- .Values.logging_application | nindent 4 }}
+
+
+    <source>
+      @type tail
+      read_from_head true
+      path /application-logs/stdio_error*.log
+      pos_file /application-logs/stdio_err.fluentd_position
+      tag stderr
+      <parse>
+        @type none
+      </parse>
+    </source>
+
+    <source>
+      @type tail
+      read_from_head true
+      path /application-logs/stdio_output*.log
+      pos_file /application-logs/stdio_out.fluentd_position
+      tag stdout
+      <parse>
+        @type none
+      </parse>
+    </source>
+
+
+    <filter **>
+      @type record_transformer
+      <record>
+        hostname "#{Socket.gethostname}"
+        application "#{ENV['APPLICATION_IDENTIFIER']}"
+        namespace "{{ .Release.Namespace }}"
+      </record>
+     </filter>
+
+    <filter std*>
+      @type record_transformer
+      <record>
+        tag ${tag}
+        hostname "#{Socket.gethostname}"
+        servicename "#{ENV['APPLICATION_IDENTIFIER']}"
+        namespace "{{ .Release.Namespace }}"
+      </record>
+     </filter>
+
+    <filter xalokapplication>
+      @type record_transformer
+      <record>
+        hostname "#{Socket.gethostname}"
+        servicename "xalok-cronjob-#{ENV['CRONJOBNAME']}"
+        namespace "#{ENV['NAMESPACE']}"
+        xalok_env "#{ENV['XALOK_ENV']}"
+        xalok_project "#{ENV['XALOK_PROJECT']}"
+        xalok_tier "#{ENV['XALOK_TIER']}"
+      </record>
+    </filter>
+
+{{ if eq .Values.logging.provider "opensearch" }}
+
+    <match application>
+        @type opensearch
+        host "#{ENV['OPENSEARCH_HOST']}"
+        port "#{ENV['OPENSEARCH_PORT']}"
+        ca_file /fluentd/etc/root-ca.pem
+        scheme "#{ENV['OPENSEARCH_SCHEMA']}"
+        ssl_verify false
+        user "#{ENV['OPENSEARCH_USER']}"
+        password "#{ENV['OPENSEARCH_PASSWORD']}"
+
+        logstash_format true
+        logstash_prefix applications
+        logstash_dateformat %Y%m%d
+        include_tag_key true
+        type_name _doc
+        tag_key @log_name
+        <buffer tag,time>
+          flush_thread_count 2
+          flush_mode interval
+          flush_interval 1s
+          timekey 1s
+        </buffer>
+    </match>
+
+    <match std**>
+        @type opensearch
+        host "#{ENV['OPENSEARCH_HOST']}"
+        port "#{ENV['OPENSEARCH_PORT']}"
+        ca_file /fluentd/etc/root-ca.pem
+        scheme "#{ENV['OPENSEARCH_SCHEMA']}"
+        ssl_verify false
+        user "#{ENV['OPENSEARCH_USER']}"
+        password "#{ENV['OPENSEARCH_PASSWORD']}"
+
+        logstash_format true
+        logstash_prefix deformi
+        logstash_dateformat %Y%m%d
+        include_tag_key true
+        type_name _doc
+        tag_key @log_name
+        <buffer tag,time>
+          flush_thread_count 2
+          flush_mode interval
+          flush_interval 1s
+          timekey 1s
+        </buffer>
+    </match>
+
+    <match xalokapplication>
+        @type opensearch
+        host "#{ENV['OPENSEARCH_HOST']}"
+        port "#{ENV['OPENSEARCH_PORT']}"
+        ca_file /fluentd/etc/root-ca.pem
+        scheme "#{ENV['OPENSEARCH_SCHEMA']}"
+        ssl_verify false
+        user "#{ENV['OPENSEARCH_USER']}"
+        password "#{ENV['OPENSEARCH_PASSWORD']}"
+
+        logstash_format true
+        logstash_prefix xalok-services
+        logstash_dateformat %Y%m%d
+        include_tag_key true
+        type_name _doc
+        tag_key @log_name
+        <buffer tag,time>
+          flush_thread_count 2
+          flush_mode interval
+          flush_interval 1s
+          timekey 1s
+        </buffer>
+    </match>
+{{ end }}

@@ -1,0 +1,89 @@
+name: "application"
+
+image: "application"
+imageInit: "alpine:latest"
+imageLog: "fluentd:latest"
+
+farm: k3 # azure wf aws wa google wg
+cluster: CLUSTER
+managedBy: "Manually"
+dnsDots: 2
+
+elasticsearchHost: 10.10.10.10
+elasticsearchPort: 9200
+
+runAsUser: 1000
+runAsGroup: 1000
+
+httpPorts:
+  - 80
+
+ports:
+  erogazione: 80
+
+applicationlogdir: /applogs
+
+volumes: {}
+
+service:
+  enabled: "True"
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 80
+  initialDelaySeconds: 25
+  periodSeconds: 2
+  successThreshold: 1
+  failureThreshold: 2
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 80
+  initialDelaySeconds: 20
+  periodSeconds: 5
+  successThreshold: 1
+  failureThreshold: 2
+
+
+logging_application: |
+    <source>
+      @type tail
+      path /application-logs/wrc.log
+      read_from_head true
+      pos_file /application-logs/fluentd_position.wrc.log
+      tag application
+      <parse>
+        @type multiline
+        format_firstline /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}/
+        format1 /^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?<level>[A-Z]+) (?<message>(.*))/
+        time_format %Y-%m-%d %H:%M:%S,%L
+      </parse>
+    </source>
+    <source>
+      @type tail
+      path /application-logs/wrc_debug.log
+      read_from_head true
+      pos_file /application-logs/fluentd_position.wrc_debug.log
+      tag application
+      <parse>
+        @type multiline
+        format_firstline /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}/
+        format1 /^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?<level>[A-Z]+) (?<message>(.*))/
+        time_format %Y-%m-%d %H:%M:%S,%L
+      </parse>
+    </source>
+    <source>
+      @type tail
+      path /application-logs/wrc_notifications.log
+      read_from_head true
+      pos_file /application-logs/fluentd_position.wrc_notifications.log
+      tag application
+      <parse>
+        @type multiline
+        format_firstline /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}/
+        format1 /^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?<level>[A-Z]+) (?<message>(.*))/
+        time_format %Y-%m-%d %H:%M:%S,%L
+      </parse>
+    </source>

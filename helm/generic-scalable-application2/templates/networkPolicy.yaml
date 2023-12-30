@@ -1,0 +1,27 @@
+# networkPolicy.yaml
+###################################################################################################
+{{- $service  := .Values.service | default dict }}
+{{- if gt (len $service.ports) 0 -}}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ include "name" . | quote }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels: {{- include "labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "name" . | quote }}
+  ingress:
+  - ports:
+    {{- range $k, $v := $service.ports | default {} }}
+    - protocol: "TCP"
+      port: {{ $v.int }}
+    {{- end }}
+    {{- range $k, $v := $service.monitoringports | default {} }}
+    - protocol: "TCP"
+      port: {{ $v }}
+    {{- end }}
+{{- end -}}
+###################################################################################################
+###################################################################################################

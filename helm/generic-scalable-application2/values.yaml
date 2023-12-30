@@ -1,0 +1,77 @@
+---
+
+image: "application"
+imageInit: "alpine:latest"
+imageLog: "fluentd:opensearch"
+
+imagePullPolicy: Always
+imagePullSecrets: {}
+
+command: 
+args: 
+
+dnsDots: 2
+
+runAsUser: 1000
+runAsGroup: 1000
+
+minReplicas: 1
+maxReplicas: 1
+
+labels: {}
+annotations: {}
+nodeSelector: {}
+
+dnsSearches: []
+
+configmapmounts: {}
+
+metrics:
+  resources:
+    cpu: 80
+    memory: 85
+  pods: {}
+  custom: {}
+
+strategy:
+  rollingUpdate:
+    maxSurge: 100%
+    maxUnavailable: 0
+
+service: {}
+volumes: {}
+envs: {}
+configenvs: {}
+readinessProbe: {}
+livenessProbe: {}
+
+logging_application: ""
+applicationlogdir: ""
+loggerEnvs: {}
+
+
+resources:
+  requests:                 # Min
+    cpu: 100m               # 1000m = 1 vCore
+    memory: 256Mi           # Mi = MegaBytes (1024*1024)
+  limits:                   # Max
+    memory: 512Mi           # Mi = MegaBytes (1024*1024)
+
+
+logging:
+  enabled: "True"
+  provider: "opensearch"
+  resources:
+    requests:                 # Min
+      cpu: 50m               # 1000m = 1 vCore
+      memory: 64Mi           # Mi = MegaBytes (1024*1024)
+    limits:                   # Max
+      memory: 256Mi           # Mi = MegaBytes (1024*1024)
+
+  opensearch:
+    port: 9200
+    schema: https
+    user: fluentd
+    host: "notset"
+    password: "notset"
+    
