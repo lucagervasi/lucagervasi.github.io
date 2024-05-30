@@ -25,6 +25,12 @@
     },
     {
       "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "timeseries",
       "name": "Time series",
       "version": ""
@@ -60,20 +66,307 @@
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
+      "id": 8,
+      "panels": [],
+      "title": "Suggerimenti",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": ""
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 0,
+        "y": 1
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": ""
+          },
+          "editorMode": "code",
+          "expr": "max(avg(quantile_over_time(.95,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d])))*1000",
+          "legendFormat": "Requests",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Requests Dev (millicpu)",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": ""
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 5,
+        "y": 1
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": ""
+          },
+          "editorMode": "code",
+          "expr": "max(avg(1.5 * quantile_over_time(.99,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d])))*1000",
+          "legendFormat": "Requests",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Requests Prod (millicpu)",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": ""
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "yellow",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 0,
+        "y": 6
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": ""
+          },
+          "editorMode": "code",
+          "expr": "max(quantile_over_time(.95,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d]))/1000000",
+          "legendFormat": "Requests",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": ""
+          },
+          "editorMode": "code",
+          "expr": "1.5*max(quantile_over_time(.95,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d]))/1000000",
+          "hide": false,
+          "legendFormat": "Limits",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Dev (Mi)",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": ""
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 5,
+        "y": 6
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": ""
+          },
+          "editorMode": "code",
+          "expr": "max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))/1000000",
+          "legendFormat": "Requests",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": ""
+          },
+          "editorMode": "code",
+          "expr": "1.5*max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))/1000000",
+          "hide": false,
+          "legendFormat": "Limits",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Prod (Mi)",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
       "id": 6,
+      "panels": [],
       "title": "Row title",
       "type": "row"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": ""
       },
       "fieldConfig": {
         "defaults": {
@@ -128,10 +421,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
+        "h": 15,
         "w": 12,
         "x": 0,
-        "y": 1
+        "y": 12
       },
       "id": 4,
       "options": {
@@ -150,11 +443,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "1.5 * quantile_over_time(.99,container_cpu_usage_irate2{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\"}[7d])",
+          "expr": "avg(1.5 * quantile_over_time(.99,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d]))",
           "legendFormat": "Suggested Prod Requests",
           "range": true,
           "refId": "A"
@@ -162,11 +455,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "quantile_over_time(.95,container_cpu_usage_irate2{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\"}[7d])",
+          "expr": "avg(quantile_over_time(.95,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d]))",
           "hide": false,
           "legendFormat": "Suggested Dev Requests",
           "range": true,
@@ -175,12 +468,12 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "2 * quantile_over_time(.9999,container_cpu_usage_irate2{container=\"${container}\",namespace=\"${ns}\",  podname=\"${pod}\"}[7d])",
-          "hide": false,
+          "expr": "avg(2 * quantile_over_time(.9999,container_cpu_usage_irate2{container=\"\",namespace=\"\",  podname=\"\"}[7d]))",
+          "hide": true,
           "legendFormat": "Suggested Critical Requests",
           "range": true,
           "refId": "C"
@@ -188,11 +481,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "max(rate(container_cpu_usage_seconds_total{namespace=\"${ns}\",podname=~\"${pod}\",container=\"${container}\"}[5m]))",
+          "expr": "max(rate(container_cpu_usage_seconds_total{namespace=\"\",podname=~\"\",container=\"\"}[5m]))",
           "hide": false,
           "legendFormat": "Current Usage",
           "range": true,
@@ -201,11 +494,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "max(kube_pod_container_resource_requests{namespace=\"${ns}\",podname=~\"${pod}\",container=\"${container}\",resource=\"cpu\"})",
+          "expr": "max(kube_pod_container_resource_requests{namespace=\"\",podname=~\"\",container=\"\",resource=\"cpu\"})",
           "hide": false,
           "legendFormat": "Current Request",
           "range": true,
@@ -214,10 +507,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
-          "expr": "kube_pod_container_resource_limits{namespace=\"${ns}\",podname=~\"${pod}\",container=\"${container}\",resource=\"cpu\"}",
+          "expr": "max(kube_pod_container_resource_limits{namespace=\"\",podname=~\"\",container=\"\",resource=\"cpu\"})",
           "hide": false,
           "legendFormat": "Current Limit",
           "range": true,
@@ -231,7 +524,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": ""
       },
       "description": "",
       "fieldConfig": {
@@ -289,10 +582,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
+        "h": 15,
         "w": 12,
         "x": 12,
-        "y": 1
+        "y": 12
       },
       "id": 2,
       "options": {
@@ -311,11 +604,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg(quantile_over_time(.95,container_memory_working_set_bytes{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\"}[7d]))",
+          "expr": "max(quantile_over_time(.95,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d]))",
           "hide": false,
           "legendFormat": "Suggested Dev Requests",
           "range": true,
@@ -324,11 +617,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "1.5 * avg(quantile_over_time(.99,container_memory_working_set_bytes{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\"}[7d]))",
+          "expr": "max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))",
           "hide": false,
           "legendFormat": "Suggested Prod Requests",
           "range": true,
@@ -337,12 +630,12 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "2 * avg(quantile_over_time(.9999,container_memory_working_set_bytes{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\"}[7d]))",
-          "hide": false,
+          "expr": "max(2 * max(quantile_over_time(.9999,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))",
+          "hide": true,
           "legendFormat": "Suggested Critical Requests",
           "range": true,
           "refId": "C"
@@ -350,11 +643,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(max(container_memory_working_set_bytes{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\"}))",
+          "expr": "max(container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"})",
           "hide": false,
           "legendFormat": "Current Usage",
           "range": true,
@@ -363,10 +656,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(kube_pod_container_resource_requests{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\",resource=\"memory\"})",
+          "expr": "max(kube_pod_container_resource_requests{container=\"\",namespace=\"\", podname=\"\",resource=\"memory\"})",
           "hide": false,
           "legendFormat": "Current Requests",
           "range": true,
@@ -375,10 +668,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(kube_pod_container_resource_limit{container=\"${container}\",namespace=\"${ns}\", podname=\"${pod}\",resource=\"memory\"})",
+          "expr": "max(kube_pod_container_resource_limit{container=\"\",namespace=\"\", podname=\"\",resource=\"memory\"})",
           "hide": false,
           "legendFormat": "Current Limit",
           "range": true,
@@ -401,7 +694,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": ""
         },
         "definition": "label_values(kube_namespace_status_phase,namespace)",
         "hide": 0,
@@ -421,14 +714,10 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "api-videoplatform",
-          "value": "api-videoplatform"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": ""
         },
         "definition": "label_values(kube_pod_container_info{namespace=~\"[[ns]]\"},podname)",
         "description": "",
@@ -445,18 +734,14 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "api-videoplatform",
-          "value": "api-videoplatform"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": ""
         },
         "definition": "label_values(kube_pod_container_info{namespace=~\"[[ns]]\",podname=~\"[[pod]]\"},container)",
         "hide": 0,
@@ -472,19 +757,19 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Resource Calibration v2 ",
-  "uid": "PoL0nVtSza",
-  "version": 4,
+  "title": "Resource Calibration v2",
+  "uid": "PoL5nVtSza",
+  "version": 19,
   "weekStart": ""
 }
