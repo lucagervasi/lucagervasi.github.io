@@ -1,0 +1,9 @@
+groups:
+- name: cdt
+  rules:
+  - expr: avg( irate(container_cpu_usage_seconds_total{container != "POD", container
+      !="", namespace != "kube-system", namespace != "istio-system" }[5m]) ) by (container,pod,namespace)
+    record: container_cpu_usage_irate
+  - expr: avg( irate(container_cpu_usage_seconds_total{container != "POD", container
+      !="", namespace != "kube-system", namespace != "istio-system" }[5m]) ) by (podname,replicaset,pod,namespace,container)
+    record: container_cpu_usage_irate2
