@@ -130,7 +130,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(avg(quantile_over_time(.95,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d])))*1000",
+          "expr": "max(avg(quantile_over_time(.95,container_cpu_usage_irate2{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d])))*1000",
           "legendFormat": "Requests",
           "range": true,
           "refId": "A"
@@ -192,7 +192,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(avg(1.5 * quantile_over_time(.99,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d])))*1000",
+          "expr": "max(avg(1.5 * quantile_over_time(.99,container_cpu_usage_irate2{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d])))*1000",
           "legendFormat": "Requests",
           "range": true,
           "refId": "A"
@@ -254,7 +254,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(quantile_over_time(.95,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d]))/1000000",
+          "expr": "max(quantile_over_time(.95,container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d]))/1000000",
           "legendFormat": "Requests",
           "range": true,
           "refId": "A"
@@ -265,7 +265,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "1.5*max(quantile_over_time(.95,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d]))/1000000",
+          "expr": "1.5*max(quantile_over_time(.95,container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d]))/1000000",
           "hide": false,
           "legendFormat": "Limits",
           "range": true,
@@ -328,7 +328,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))/1000000",
+          "expr": "max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d])))/1000000",
           "legendFormat": "Requests",
           "range": true,
           "refId": "A"
@@ -339,7 +339,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "1.5*max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))/1000000",
+          "expr": "1.5*max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d])))/1000000",
           "hide": false,
           "legendFormat": "Limits",
           "range": true,
@@ -447,7 +447,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg(1.5 * quantile_over_time(.99,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d]))",
+          "expr": "avg(1.5 * quantile_over_time(.99,container_cpu_usage_irate2{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d]))",
           "legendFormat": "Suggested Prod Requests",
           "range": true,
           "refId": "A"
@@ -459,7 +459,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "avg(quantile_over_time(.95,container_cpu_usage_irate2{container=\"\",namespace=\"\", podname=\"\"}[7d]))",
+          "expr": "avg(quantile_over_time(.95,container_cpu_usage_irate2{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d]))",
           "hide": false,
           "legendFormat": "Suggested Dev Requests",
           "range": true,
@@ -608,7 +608,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "max(quantile_over_time(.95,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d]))",
+          "expr": "max(quantile_over_time(.95,container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d]))",
           "hide": false,
           "legendFormat": "Suggested Dev Requests",
           "range": true,
@@ -621,7 +621,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))",
+          "expr": "max(1.5 * max(quantile_over_time(.99,container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d])))",
           "hide": false,
           "legendFormat": "Suggested Prod Requests",
           "range": true,
@@ -634,7 +634,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "max(2 * max(quantile_over_time(.9999,container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"}[7d])))",
+          "expr": "max(2 * max(quantile_over_time(.9999,container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"}[7d])))",
           "hide": true,
           "legendFormat": "Suggested Critical Requests",
           "range": true,
@@ -647,7 +647,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "max(container_memory_working_set_bytes{container=\"\",namespace=\"\", podname=\"\"})",
+          "expr": "max(container_memory_working_set_bytes{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\"})",
           "hide": false,
           "legendFormat": "Current Usage",
           "range": true,
@@ -659,7 +659,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(kube_pod_container_resource_requests{container=\"\",namespace=\"\", podname=\"\",resource=\"memory\"})",
+          "expr": "max(kube_pod_container_resource_requests{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\",resource=\"memory\"})",
           "hide": false,
           "legendFormat": "Current Requests",
           "range": true,
@@ -671,7 +671,7 @@
             "uid": ""
           },
           "editorMode": "code",
-          "expr": "max(kube_pod_container_resource_limit{container=\"\",namespace=\"\", podname=\"\",resource=\"memory\"})",
+          "expr": "max(kube_pod_container_resource_limit{container=~\"[[container]]\",namespace=~\"[[ns]]\", podname=~\"[[pod]]\",resource=\"memory\"})",
           "hide": false,
           "legendFormat": "Current Limit",
           "range": true,
