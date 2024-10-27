@@ -54,12 +54,11 @@
       }
     ]
   },
-  "description": "Redis Dashboard for Prometheus Redis Exporter 1.x, it works with helm stable/redis-ha exporter.\r\n\r\nIf you missing redis memory utilization, please modify \"maxmemory\" value in values.yaml",
+  "description": "",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 11835,
   "graphTooltip": 0,
-  "id": 43,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -221,10 +220,10 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "redis_connected_clients{app_kubernetes_io_instance=~\"$instance\"}",
+          "expr": "redis_connected_clients{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "",
+          "legendFormat": "__auto",
           "metric": "",
           "range": true,
           "refId": "A",
@@ -311,7 +310,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "100 * (redis_memory_used_bytes{app_kubernetes_io_instance=~\"$instance\"}  / redis_memory_max_bytes{app_kubernetes_io_instance=~\"$instance\"} )",
+          "expr": "100 * (redis_memory_used_bytes{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}  / redis_memory_max_bytes{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"} )",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -413,7 +412,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(redis_commands_processed_total{app_kubernetes_io_instance=~\"$instance\"}[5m])",
+          "expr": "rate(redis_commands_processed_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -517,7 +516,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "irate(redis_keyspace_hits_total{app_kubernetes_io_instance=~\"$instance\"}[5m])",
+          "expr": "irate(redis_keyspace_hits_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}[5m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -535,7 +534,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "irate(redis_keyspace_misses_total{app_kubernetes_io_instance=~\"$instance\"}[5m])",
+          "expr": "irate(redis_keyspace_misses_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}[5m])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -656,7 +655,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "redis_memory_used_bytes{app_kubernetes_io_instance=~\"$instance\"} ",
+          "expr": "redis_memory_used_bytes{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"} ",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "used",
@@ -672,7 +671,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "redis_memory_max_bytes{app_kubernetes_io_instance=~\"$instance\"} ",
+          "expr": "redis_memory_max_bytes{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"} ",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -747,10 +746,10 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(redis_net_input_bytes_total{app_kubernetes_io_instance=~\"$instance\"}[5m])",
+          "expr": "rate(redis_net_input_bytes_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{ input }}",
+          "legendFormat": "Input",
           "range": true,
           "refId": "A",
           "step": 240
@@ -761,11 +760,11 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(redis_net_output_bytes_total{app_kubernetes_io_instance=~\"$instance\"}[5m])",
+          "expr": "rate(redis_net_output_bytes_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}[5m])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{ output }}",
+          "legendFormat": "Output",
           "range": true,
           "refId": "B",
           "step": 240
@@ -892,7 +891,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum (redis_db_keys{app_kubernetes_io_instance=~\"$instance\"}) by (db)",
+          "expr": "sum (redis_db_keys{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}) by (db)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -994,7 +993,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum (redis_db_keys{app_kubernetes_io_instance=~\"$instance\"}) - sum (redis_db_keys_expiring{app_kubernetes_io_instance=~\"$instance\"}) ",
+          "expr": "sum (redis_db_keys{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}) - sum (redis_db_keys_expiring{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1010,7 +1009,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum (redis_db_keys_expiring{app_kubernetes_io_instance=~\"$instance\"}) ",
+          "expr": "sum (redis_db_keys_expiring{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1158,7 +1157,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(redis_expired_keys_total{app_kubernetes_io_instance=~\"$instance\"}[5m])) by (instance)",
+          "expr": "sum(rate(redis_expired_keys_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}[5m])) by (instance)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1176,7 +1175,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(rate(redis_evicted_keys_total{app_kubernetes_io_instance=~\"$instance\"}[5m])) by (instance)",
+          "expr": "sum(rate(redis_evicted_keys_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}[5m])) by (instance)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1277,7 +1276,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "topk(5, irate(redis_commands_total{app_kubernetes_io_instance=~\"$instance\"} [5m]))",
+          "expr": "topk(5, irate(redis_commands_total{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"} [5m]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1379,9 +1378,10 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "redis_connected_clients{app_kubernetes_io_instance=~\"$instance\"}",
+          "expr": "redis_connected_clients{namespace=~\"$namespace\",app_kubernetes_io_instance=~\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
+          "legendFormat": "Connected Clients",
           "range": true,
           "refId": "A"
         }
@@ -1403,7 +1403,7 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "Prometheus",
           "value": "Prometheus"
         },
@@ -1414,6 +1414,7 @@
         "name": "DS_PROMETHEUS",
         "options": [],
         "query": "prometheus",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1422,8 +1423,8 @@
       {
         "current": {
           "selected": false,
-          "text": "prd-cor",
-          "value": "prd-cor"
+          "text": "dv1-wpo",
+          "value": "dv1-wpo"
         },
         "datasource": {
           "type": "prometheus",
@@ -1511,8 +1512,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "Redis Dashboard for Prometheus Redis Exporter (helm stable/redis-ha)",
+  "title": "Redis Dashboard",
   "uid": "xDLNRKUWz",
-  "version": 3,
+  "version": 1,
   "weekStart": ""
 }
