@@ -61,6 +61,25 @@
           "type": "dashboard"
         },
         "type": "dashboard"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "iconColor": "red",
+        "name": "Deployments",
+        "target": {
+          "matchAny": true,
+          "refId": "Anno",
+          "tags": [
+            "$ns",
+            "$deployment",
+            "deployment/$deployment",
+          ],
+          "type": "tags"
+        }
       }
     ]
   },

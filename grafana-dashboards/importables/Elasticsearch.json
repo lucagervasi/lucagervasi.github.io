@@ -29,9 +29,12 @@
         "name": "Deployments",
         "target": {
           "limit": 100,
+          "matchAny": true,
           "refId": "Anno",
           "tags": [
-            "deployment"
+            "$ns",
+            "$deployment",
+            "deployment/$deployment",
           ],
           "type": "tags"
         }

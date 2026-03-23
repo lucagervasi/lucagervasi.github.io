@@ -29,9 +29,11 @@
         "name": "Deployments",
         "target": {
           "limit": 100,
-          "matchAny": false,
+          "matchAny": true,
           "tags": [
-            "deployment"
+            "$ns",
+            "$deployment",
+            "deployment/$deployment",
           ],
           "type": "tags"
         }
