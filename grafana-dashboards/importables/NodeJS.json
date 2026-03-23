@@ -307,7 +307,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": ""
           },
           "editorMode": "code",
           "expr": "sum(nodejs_version_info{namespace=~\"$ns\",app_kubernetes_io_name=~\"$instance\",pod=~\"$pod\"}) by (version)",
