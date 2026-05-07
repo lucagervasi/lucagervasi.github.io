@@ -120,7 +120,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 5 },
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 5 },
       "id": 4,
       "options": {
         "legend": { "calcs": ["lastNotNull", "max", "mean"], "displayMode": "table", "placement": "bottom", "showLegend": true },
@@ -173,7 +173,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 5 },
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 5 },
       "id": 5,
       "options": {
         "legend": { "calcs": ["lastNotNull", "max", "mean"], "displayMode": "table", "placement": "bottom", "showLegend": true },
@@ -234,7 +234,7 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 5 },
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 5 },
       "id": 6,
       "options": {
         "legend": { "calcs": ["lastNotNull", "max", "mean"], "displayMode": "table", "placement": "bottom", "showLegend": true },
@@ -252,6 +252,66 @@
         }
       ],
       "title": "CLS — Cumulative Layout Shift  (<0.1 buono · >0.25 scarso)",
+      "type": "timeseries"
+    },
+
+    {
+      "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "dashed" }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green",   "value": null },
+              { "color": "#EAB839", "value": 200  },
+              { "color": "red",     "value": 500  }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 5 },
+      "id": 29,
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "max", "mean"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "PBFA97CFB590B2093" },
+          "editorMode": "code",
+          "expr": "page_inp_ms{url_name=~\"$url_name\"}",
+          "format": "time_series",
+          "legendFormat": "{{url_name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "INP — Interaction to Next Paint  (<200 buono · >500 scarso)",
       "type": "timeseries"
     },
 
