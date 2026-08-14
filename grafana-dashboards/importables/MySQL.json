@@ -76,7 +76,7 @@
           "tags": [
             "$ns",
             "$deployment",
-            "deployment/$deployment",
+            "deployment/$deployment"
           ],
           "type": "tags"
         }
